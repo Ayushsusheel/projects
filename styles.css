@@ -1,0 +1,320 @@
+/* *, *::before, *::after {
+  box-sizing: border-box;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+body {
+  margin: 0;
+  /* background-color: rgba(76, 212, 236, 0.534); */
+  background-image: url("assets/hand_shake_2.png");
+  
+  
+}
+
+.video-container {
+  position: relative;
+  width: 90%;
+  max-width: 1000px;
+  display: flex;                /* make this video in center flex + center, if this video size gets big eg in theater mode it will remain in center */   
+  justify-content: center;
+  margin-inline: auto;   
+  background-color: rgb(0, 0, 0);     /*theater mode mei backgroung color display krne ke liye*/
+}
+
+video {
+  width: 100%;
+}
+
+ .video-controls-container {
+  position: absolute;
+   bottom: 0;                       /*   make sure  it fills the entire space bottom,lef,right =0 */
+  left: 0;
+  right: 0;
+  color: black;
+   z-index: 100;                    /* it should be top of anything */
+  opacity: 0;                       /* it should be hidden by default and should be viisible only when we hover it + opacity and transition are used together transition is nothing but what kind of  effect we want to use*/
+  transition: opacity 150ms ease-in-out;    
+}
+
+
+
+.video-container:hover .video-controls-container,
+.video-container:focus-within .video-controls-container,
+.video-container.paused .video-controls-container {
+  opacity: 1;
+}
+
+.video-controls-container .controls {   /* gap for play,pause icons */
+  display: flex;
+  gap: .8rem;
+  padding: .25rem;
+  align-items: center;
+}
+
+.video-controls-container .controls button { /* modifications in buttons  */
+  background: none;
+  border: none;
+  color: inherit;
+  padding: 0;
+  height: 30px;      /* if  we comment the height play,pause icons both will be displayed toegther */
+  width: 30px;
+  font-size: 1.1rem;
+  cursor: pointer;     /* when we hover on button it will become pointer (hand jaisa dikhta h jo) */
+  opacity: .85;
+  transition: opacity 150ms ease-in-out;
+}
+
+.video-controls-container .controls button:hover { /*  when we hover on button it will slightly become dark */
+  opacity: 1;
+}
+
+
+.video-container.paused .pause-icon {   /* <svg class="pause-icon we will hide this if our video is pauseddd */
+  display: none;
+}
+
+
+.video-container:not(.paused) .play-icon {  /* <svg class="play-icon" viewBox="0 0 24 24"> if we dont have paused class then hide the play button   */
+  display: none;
+}
+
+
+.video-controls-container::before {         /*jo hmara video ka bottom part h usko slightly black kiya h bottom se upwards ki taraf*/
+  content: "";                              /* if content is not used ye slight black  effect show nai hoga */
+  position: absolute;                       /* if position is not used ye slight black  effect show nai hoga */
+  bottom: 0;
+  background: linear-gradient(to top, rgba(0, 184, 190, 0.301), transparent);
+  width: 100%;
+  aspect-ratio: 6 / 1;                          /* hmari screen left , right , uper, neeche kaise bhi kro bottom se waisa hi effect rhega islie we have used 6/1 */
+  z-index: -1;                                  /* hmare icons properly show ho + ye black effect piche rhe icons ke islie z index -1 h else +1 krte toh icons ke uper aajata */  
+ /* (remove thisssssss  mera chlra h but)pointer-events: none; */                        /* if this is not present we will not be able to play the video using mouse/click krke video play/pause nai hogi */
+}
+
+/*************************************************************************************************************************/
+
+
+
+
+
+/*************************************************************************************************************************/
+/* THEATER MODE , FULL SCREEN MODE  */
+/*************************************************************************************************************************/
+
+.video-container.theater,
+.video-container.full-screen {
+  max-width: initial;
+  width: 100%;
+}
+
+
+.video-container.theater {
+  max-height: 90vh;               /* it will take 90% of the screen and remaining 10% will be displayed CYAN color  */
+}
+
+.video-container.full-screen {
+  max-height: 100vh;               
+}
+
+.video-container.theater .tall {   /* <svg class="tall"  theater mode mei agar h toh icon tall wala na show ho*/
+  display: none;
+}
+
+.video-container:not(.theater) .wide { /* svg class="wide" theater mode mei agar nahi h toh icon wide wala na show ho */
+  display: none;
+ 
+}
+
+.video-container.full-screen .open {    /* full screen mei h toh open wala icon naa show ho*/
+  display: none;
+}
+
+.video-container:not(.full-screen) .close {   /* not in full screen toh close wala na show ho*/
+  display: none;
+}
+ 
+/*************************************************************************************************************************/
+/*VOLUME BUTTON*/
+/*************************************************************************************************************************/
+
+.volume-high-icon,
+.volume-low-icon,
+.volume-muted-icon {
+  display: none;                    /* by default hide these therefore we used none*/
+}
+
+.video-container[data-volume-level="high"] .volume-high-icon {     /* [data-volume-level="high"] this is a state   */
+  display: block;
+}
+
+.video-container[data-volume-level="low"] .volume-low-icon {    /* <div class="video-container paused" data-volume-level="muted"> so bydefault muted icon will be displayed , low, high also we can use */
+  display: block;
+}
+
+.video-container[data-volume-level="muted"] .volume-muted-icon {
+  display: block;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;                  /* to move everyting to right we use this and it can be used inside a container  */
+}
+
+
+.volume-slider {
+  width: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: width 150ms ease-in-out, transform 150ms ease-in-out;
+}
+
+.volume-container:hover .volume-slider,
+.volume-slider:focus-within {                               /* .volume-slider:focus-within  if we use TAB Key then also it should work fine  */
+  width: 100px;
+  transform: scaleX(1);
+  
+}
+
+
+
+/*************************************************************************************************************************/
+/*SPEED BUTTON*/
+/*************************************************************************************************************************/
+
+.video-controls-container .controls button.wide-btn {
+  width: 50px;
+  
+}
+
+
+/*************************************************************************************************************************/
+/* TIMELINE */
+/*************************************************************************************************************************/
+
+.timeline-container {
+  height: 7px;
+  margin-inline: .5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.timeline {
+  background-color: grey;
+  height: 3px;
+  width: 100%;
+  position: relative
+}
+
+
+.timeline-container:hover .timeline{
+  height: 60%;
+}
+
+ 
+
+/* .timeline::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0; 
+  right: calc(100% - var(--preview-position) * 100%); /*--preview-position  this value will bet set in script.js how much progress it has made/
+  background-color: rgb(150, 150, 150);
+  display: none;
+}
+
+.timeline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: calc(100% - var(--progress-position) * 100%);
+  background-color: red;
+}
+
+.timeline .thumb-indicator {
+  --scale: 0;
+  position: absolute;
+  transform: translateX(-50%) scale(var(--scale));
+  height: 200%;
+  top: -50%;
+  left: calc(var(--progress-position) * 100%);
+  background-color: red;
+  border-radius: 50%;
+  transition: transform 150ms ease-in-out;
+  aspect-ratio: 1 / 1;
+}
+
+.timeline .preview-img {
+  position: absolute;
+  height: 80px;
+  aspect-ratio: 16 / 9;
+  top: -1rem;
+  transform: translate(-50%, -100%);
+  left: calc(var(--preview-position) * 100%);
+  border-radius: .25rem;
+  border: 2px solid white;
+  display: none;
+}
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*  .video-container:not(.paused) .play-icon , these all are called selectors */
