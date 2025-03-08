@@ -1,11 +1,7 @@
 const playPauseBtn = document.querySelector(".play-pause-btn")    //play-pause-btn  we have this class in <button class="play-pause-btn"> index.html                               
 
 const video = document.querySelector("video")
-
 const videoContainer = document.querySelector(".video-container")
-
-
-
 
 
 /// Play and Pause 
