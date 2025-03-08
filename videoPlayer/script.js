@@ -7,6 +7,7 @@ const videoContainer = document.querySelector(".video-container")
 
 
 
+
 /// Play and Pause 
 playPauseBtn.addEventListener("click", playVideo)     //why we used this :---> when we click on button only then video will be played/paused
 video.addEventListener("click", playVideo)            //why we used this :---> when we click on screen the video will be played/paused
